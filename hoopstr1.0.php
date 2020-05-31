@@ -103,7 +103,7 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Hoopstr Basketball Stats Tracker</title>
+        <title>Stats Tracker</title>
         <link rel="stylesheet" href="style.css">
         <link rel="shortcut icon" type="image/jpg" href="img/score.jpg">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -147,58 +147,75 @@ mysqli_close($conn);
             </script>
 
 
-        <!-- drop down to select game, have to press submit -->
-            <!-- <form action="index.php" method="get">
+    <!-- drop down to select game -->
+            <form action="index.php" method="get">
                 <select name="selected_game" class="dropdown">
                     <option value="select_game">Select game</option>
-                    ?php foreach( array_reverse($games) as $game){ ?>
-                        <option value="?php echo $game['id']?>" ?php if(isset($_SESSION['selected_game'])){
+                    <!-- <option value="create_new_game">Create a new game...</option> -->
+                    <?php foreach( array_reverse($games) as $game){ ?>
+                        <option value="<?php echo $game['id']?>" <?php if(isset($_SESSION['selected_game'])){
                                                                             if($game['id']==$_SESSION['selected_game']){
                                                                                 echo 'selected';
                                                                             };
                                                                         };?>
                         >
-                            ?php echo htmlspecialchars($game['game_title']);?>
-                            ?php echo htmlspecialchars($game['game_date']);?>
+                            <?php echo htmlspecialchars($game['game_title']);?>
+                            <?php echo htmlspecialchars($game['game_date']);?>
                         </option>
-                    ?php }?>   
+                    <?php }?>   
                 </select>
                 <input type="submit" value="Submit">
-            </form> -->
+            </form>
 
-    <!-- drop down to select game, dont have to press submit -->
-        <form>    
-            <select name="selected_game" class="dropdown" onchange="selectGame();" id="gamename2">
-                <option value="select_game">Select game</option>
-                <?php foreach( array_reverse($games) as $game){ ?>
-                    <option value="<?php echo $game['id']?>" <?php if(isset($_SESSION['selected_game'])){
-                                                                        if($game['id']==$_SESSION['selected_game']){
-                                                                            echo 'selected';
-                                                                        };
-                                                                    };?>
-                    >
-                        <?php echo htmlspecialchars($game['game_title']);?>
-                        <?php echo htmlspecialchars($game['game_date']);?>
-                    </option>
-                <?php }?>   
-            </select>
-        </form>
 
         </header>
+
+<!-- when drop down is changed, even without submitting, it will alert
+<script type="text/javascript">
+   function changeFunc() {
+        var selectBox = document.getElementById("selectBox");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        if(selectedValue==2){
+            alert('alertttttt');
+            alert(document.getElementById("selected").value);
+        };
+   }
+
+</script>
+
+<select id="selectBox" onchange="changeFunc();">
+   <option value="1">Option #1</option>
+   <option value="2">Option #2</option>
+</select> -->
 
 <!-- buttons with links
 <a href="create_new_game.php">hhhhhhhhhhhhhhhh</a>
 <button onclick="location.href='create_new_game.php';">go to create new game</button>
 <input type="button" onclick="location.href='https://google.com';" value="Go" /> -->
 
-<!-- displays game_id when clicked on a drop down without pressing submit -->
+<!-- displays game_id when clicked on a drop down without pressing submit
+onclick="selectGame();" id="gamename2" must be added in the select tag
 <script>
     function selectGame(){
         var game_id = document.getElementById('gamename2').value;
-        window.location.href = 'index.php?selected_game='+game_id;
+        document.getElementById('poll').innerHTML = game_id;
     }
 </script> 
+<p id="poll">checking</p> -->
 
+<!-- images -->
+        <!-- <img src="img\edit.png" alt="history icon" height="100">
+        <img src="img\create-vector-icon-260nw-564700609.webp" alt="history icon" height="100">
+            <br><br>
+        </p>
+        <p class="top-right">
+            <img src="img/graph.jpg" alt="history icon" height="120">
+        </p>
+        <header>
+            <img src="img/microphone-3404243_960_720.webp" alt="microphone" height="120">
+            <br>
+            Say "I made a layup..."
+        </header> -->
         <br>
         <hr>
         <br><br>
@@ -391,6 +408,7 @@ mysqli_close($conn);
 
             document.querySelector('#btnGiveCommand').addEventListener('click', function(){
                 recognition.start();
+
             });
 
 
@@ -401,10 +419,10 @@ mysqli_close($conn);
             <li class="log1">Log:</li>
             <br>
             <!-- create new activity -->
-            <!-- <form action="index.php" method="get">
+            <form action="index.php" method="get">
                 <input type="text" placeholder="Enter new activity" name="new_activity" required class="enteractivity">
                 <input type="submit">
-            </form> -->
+            </form>
 
 
             <p style="color:red"><?php echo $must_select_game ?></p>
@@ -414,8 +432,8 @@ mysqli_close($conn);
             <?php if(isset($_SESSION['selected_game'])){
                 foreach( array_reverse($activity_log) as $activity){
                     if($activity['game_fk'] == $_SESSION['selected_game'] ){
-                        echo htmlspecialchars($activity['activity']) .'<br />'. '<br />';                     
-                    }
+                        echo htmlspecialchars($activity['activity']) . '<br />'. '<br />';                     
+                    } 
                 }
             }
             ?>   
